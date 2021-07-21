@@ -15,7 +15,7 @@ mycol = mydb['customers']
 #create a record
 mydict = {'name' : 'John', 'address' : 'Highway 37'}
 
-"""
+
 #and add it to the database
 x = mycol.insert_one(mydict)
 
@@ -38,7 +38,7 @@ mylist = [
 
 #we can also insert a list of records
 x = mycol.insert_many(mylist)
-"""
+
 #but what about searching
 x = mycol.find_one()
 
@@ -58,10 +58,26 @@ x = mycol.find_one()
 #    print(rec)
 
 #sorting
-myquery = {'address' : {'$gt' : 'S'}}
-for rec in mycol.find(myquery).sort('name'): #or descending sort('name', -1)
-    print(rec)
+#myquery = {'address' : {'$gt' : 'S'}}
+#for rec in mycol.find(myquery).sort('name'): #or descending sort('name', -1)
+#    print(rec)
 
 #myquery = {'address' : {'$regex' : '^S'}}
 #for rec in mycol.find(myquery):
 #    print(rec)        
+
+
+#deletition
+#mycol.delete_many({'name' : {'$gt' : 'T'}})
+
+#myquery = {'address' : {'$gt' : 'S'}}
+
+
+myquery = { "address": "Valley 345" }
+newvalues = { "$set": { "address": "Canyon 123" } }
+
+mycol.update_many(myquery, newvalues)
+for rec in mycol.find().limit(5).sort('name'):
+    print(rec)
+
+mycol.drop()
